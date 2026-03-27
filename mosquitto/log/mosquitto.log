@@ -53,3 +53,34 @@
 1774604341: New connection from 172.18.0.4:53250 on port 1883.
 1774604341: New client connected from 172.18.0.4:53250 as mqttjs_1371df4f (p4, c1, k60).
 1774606117: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774607918: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774609719: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774611520: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774613320: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774615121: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774616922: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774618723: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774619117: New connection from 172.18.0.1:53492 on port 1883.
+1774619117: New client connected from 172.18.0.1:53492 as ESP32_Dev1_R1_f093 (p4, c1, k15).
+1774620220: Client ESP32_Dev1_R1_f093 [172.18.0.1:53492] disconnected: exceeded timeout.
+1774620524: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774641173: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774642974: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774643821: New connection from 172.18.0.1:46016 on port 1883.
+1774643821: New client connected from 172.18.0.1:46016 as ESP32_Dev1_R1_c544 (p4, c1, k15).
+1774643859: Client ESP32_Dev1_R1_c544 [172.18.0.1:46016] disconnected: exceeded timeout.
+1774643889: New connection from 172.18.0.1:51932 on port 1883.
+1774643889: New client connected from 172.18.0.1:51932 as ESP32_Dev1_R1_ff16 (p4, c1, k15).
+1774643927: Client ESP32_Dev1_R1_ff16 [172.18.0.1:51932] disconnected: exceeded timeout.
+1774644648: New connection from 172.18.0.1:39520 on port 1883.
+1774644648: New client connected from 172.18.0.1:39520 as ESP32_Dev1_R1_33f9 (p4, c1, k15).
+1774644775: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774644806: Client ESP32_Dev1_R1_33f9 [172.18.0.1:39520] disconnected: exceeded timeout.
+1774645071: New connection from 172.18.0.1:55120 on port 1883.
+1774645071: New client connected from 172.18.0.1:55120 as ESP32_Dev1_R1_e893 (p4, c1, k15).
+1774645739: Client ESP32_Dev1_R1_e893 [172.18.0.1:55120] disconnected: exceeded timeout.
+1774645928: New connection from 172.18.0.1:45874 on port 1883.
+1774645928: New client connected from 172.18.0.1:45874 as ESP32_Dev1_R1_b388 (p4, c1, k15).
+1774646575: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774648376: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774650177: Saving in-memory database to /mosquitto/data//mosquitto.db.
