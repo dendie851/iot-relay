@@ -1,0 +1,40 @@
+1774599434: mosquitto version 2.1.2 starting
+1774599434: Config loaded from /mosquitto/config/mosquitto.conf.
+1774599434: Bridge support available.
+1774599434: Persistence support available.
+1774599434: TLS support available.
+1774599434: TLS-PSK support available.
+1774599434: Websockets support available.
+1774599434: Opening ipv4 listen socket on port 1883.
+1774599434: Opening ipv4 listen socket on port 9001.
+1774599434: mosquitto version 2.1.2 running
+1774600163: mosquitto version 2.1.2 terminating
+1774600163: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774600168: mosquitto version 2.1.2 starting
+1774600168: Config loaded from /mosquitto/config/mosquitto.conf.
+1774600168: Bridge support available.
+1774600168: Persistence support available.
+1774600168: TLS support available.
+1774600168: TLS-PSK support available.
+1774600168: Websockets support available.
+1774600168: Opening ipv4 listen socket on port 1883.
+1774600168: Opening ipv4 listen socket on port 9001.
+1774600168: mosquitto version 2.1.2 running
+1774600247: New connection from 172.18.0.4:52482 on port 1883.
+1774600247: New client connected from 172.18.0.4:52482 as mqttjs_701e9d3e (p4, c1, k60).
+1774600977: New connection from 172.18.0.1:37722 on port 1883.
+1774600977: New client connected from 172.18.0.1:37722 as mqtt-explorer-ac36c815 (p4, c1, k60).
+1774601617: Client mqttjs_701e9d3e [172.18.0.4:52482] disconnected: connection closed by client.
+1774601632: New connection from 172.18.0.4:45308 on port 1883.
+1774601632: New client connected from 172.18.0.4:45308 as mqttjs_adce10d1 (p4, c1, k60).
+1774601968: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774602107: Client mqttjs_adce10d1 [172.18.0.4:45308] disconnected: connection closed by client.
+1774602118: New connection from 172.18.0.4:54624 on port 1883.
+1774602118: New client connected from 172.18.0.4:54624 as mqttjs_c6f6c3ad (p4, c1, k60).
+1774602518: Client mqttjs_c6f6c3ad [172.18.0.4:54624] disconnected: connection closed by client.
+1774602531: New connection from 172.18.0.4:50180 on port 1883.
+1774602531: New client connected from 172.18.0.4:50180 as mqttjs_7c1432bb (p4, c1, k60).
+1774603769: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1774604304: Client mqttjs_7c1432bb [172.18.0.4:50180] disconnected: connection closed by client.
+1774604305: mosquitto version 2.1.2 terminating
+1774604305: Saving in-memory database to /mosquitto/data//mosquitto.db.

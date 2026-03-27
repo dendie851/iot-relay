@@ -1,0 +1,66 @@
+{
+    "info": {
+        "_postman_id": "iot-system-api-001",
+        "name": "IoT Relay System",
+        "description": "Koleksi API untuk mengontrol relay dan melihat status dari database MySQL melalui Backend Node.js",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get All Relays Status",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost/api/relays",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "path": [
+                        "api",
+                        "relays"
+                    ]
+                },
+                "description": "Mengambil daftar semua relay beserta status ON/OFF (0/1) terbaru dari database."
+            },
+            "response": []
+        },
+        {
+            "name": "Control Relay (ON/OFF)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"topic\": \"-/dev1/relay1\",\n    \"status\": 1\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost/api/relay/control",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "path": [
+                        "api",
+                        "relay",
+                        "control"
+                    ]
+                },
+                "description": "Mengirim perintah ke MQTT dan mengupdate database.\n\nContoh Body:\n- Status 1 = ON\n- Status 0 = OFF"
+            },
+            "response": []
+        }
+    ]
+}

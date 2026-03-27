@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart IoT Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="glass sticky top-0 z-50 border-b border-slate-200 px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-indigo-600 p-2 rounded-lg">
+                    <i class="fas fa-bolt text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">IoT Central <span class="text-indigo-600">Pro</span></h1>
+            </div>
+            <div id="connection-status" class="flex items-center gap-2 text-sm font-medium text-green-600">
+                <span class="relative flex h-2 w-2">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                System Online
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-1">Location</p>
+                <p class="text-md font-semibold text-slate-700 italic">Environment Site Edge</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-1">MQTT Broker</p>
+                <p class="text-md font-semibold text-slate-700">Connected</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest mb-1">Server Port</p>
+                <p class="text-md font-semibold text-indigo-600">3000 (Proxy)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-bold flex items-center gap-2">
+                <i class="fas fa-layer-group text-indigo-600"></i>
+                Relay Device Control
+            </h2>
+            <span class="text-xs text-slate-400">Auto-refresh every 3s</span>
+        </div>
+
+        <div id="relay-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="col-span-full text-center py-20 text-slate-400">
+                <i class="fas fa-circle-notch animate-spin text-2xl mb-2"></i>
+                <p>Synchronizing with Database...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Use /api if using Nginx Proxy, or http://localhost:3000/api for direct
+        const API_URL = '/api/api/';
+
+        async function fetchRelays() {
+            try {
+                const response = await fetch(`${API_URL}/relays`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                renderRelays(data);
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                document.getElementById('relay-container').innerHTML =
+                    `<div class="col-span-full text-red-500 text-center bg-red-50 p-4 rounded-xl border border-red-100">
+                        Failed to connect to Backend. Check your Proxy settings.
+                    </div>`;
+            }
+        }
+
+        async function toggleRelay(topic, currentStatus) {
+            const newStatus = currentStatus === 1 ? 0 : 1;
+            try {
+                await fetch(`${API_URL}/relay/control`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, status: newStatus })
+                });
+                fetchRelays(); // Update UI immediately
+            } catch (error) {
+                console.error('Control Error:', error);
+            }
+        }
+
+        function renderRelays(relays) {
+            const container = document.getElementById('relay-container');
+            container.innerHTML = '';
+
+            relays.forEach(relay => {
+                const isOn = relay.status === 1;
+                const card = `
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border transition-all duration-500 ${isOn ? 'border-indigo-200 ring-4 ring-indigo-50' : 'border-slate-200'}">
+                        <div class="flex flex-col h-full">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 rounded-2xl ${isOn ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}">
+                                    <i class="fas ${isOn ? 'fa-lightbulb' : 'fa-power-off'} text-xl"></i>
+                                </div>
+                                <span class="flex items-center gap-1 text-[10px] font-black px-3 py-1 rounded-full ${isOn ? 'bg-green-100 text-green-600' : 'bg-slate-200 text-slate-500'}">
+                                    <span class="h-1.5 w-1.5 rounded-full ${isOn ? 'bg-green-500 animate-pulse' : 'bg-slate-400'}"></span>
+                                    ${isOn ? 'STATUS: ON' : 'STATUS: OFF'}
+                                </span>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-slate-800 text-lg">${relay.device_name}</h3>
+                                <p class="text-[10px] font-medium text-slate-400 tracking-tight truncate uppercase italic">${relay.mqtt_topic}</p>
+                            </div>
+
+                            <button 
+                                onclick="toggleRelay('${relay.mqtt_topic}', ${relay.status})"
+                                class="w-full py-3.5 rounded-2xl font-bold text-xs transition-all duration-300 flex items-center justify-center gap-2 ${isOn
+                        ? 'bg-rose-50 text-rose-600 border border-rose-100 hover:bg-rose-600 hover:text-white'
+                        : 'bg-indigo-600 text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700'
+                    }">
+                                <i class="fas ${isOn ? 'fa-stop-circle' : 'fa-play-circle'}"></i>
+                                ${isOn ? 'TURN OFF' : 'TURN ON'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Initial fetch
+        fetchRelays();
+        // Polling every 3 seconds
+        setInterval(fetchRelays, 3000);
+    </script>
+</body>
+
+</html>

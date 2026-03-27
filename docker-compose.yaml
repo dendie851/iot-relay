@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # --- 1. MQTT BROKER (Mosquitto) ---
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    container_name: iot-mqtt-broker
+    ports:
+      - "1883:1883"   # Port untuk ESP32
+      - "9001:9001"   # Port untuk WebSockets (jika frontend ingin connect langsung)
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    restart: always
+
+  # --- 2. DATABASE (MySQL) ---
+  mysql-db:
+    image: mysql:8.0
+    container_name: iot-mysql
+    environment:
+      MYSQL_DATABASE: iot_db
+      MYSQL_ROOT_PASSWORD: password_iot
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    restart: always
+
+  # --- 3. BACKEND (Node.js) ---
+  backend:
+    image: node:18-alpine
+    container_name: iot-backend
+    working_dir: /app
+    volumes:
+      - ./apps-backend:/app
+    # Menginstall dependensi otomatis jika package.json ada
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3000:3000"   
+    environment:
+      - DB_HOST=mysql-db
+      - DB_USER=root
+      - DB_PASS=password_iot
+      - DB_NAME=iot_db
+      - MQTT_HOST=mqtt-broker
+    depends_on:
+      - mysql-db
+      - mqtt-broker
+    restart: always
+
+  # --- 4. WEB SERVER & FRONTEND (Nginx) ---
+  nginx-server:
+    image: nginx:alpine
+    container_name: iot-nginx
+    ports:
+      - "80:80"
+      - "0.0.0.0:80:80" # Memaksa Nginx mendengarkan semua interface IP
+    volumes:
+      # Mounting folder frontend ke htdocs nginx
+      - ./apps-frontend:/usr/share/nginx/html:ro
+      # Mounting konfigurasi custom nginx
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    restart: always
+
+networks:
+  default:
+    name: iot-network
