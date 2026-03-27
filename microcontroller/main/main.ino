@@ -15,7 +15,7 @@ AsyncWebServer server(80);
 
 String ssid, pass, mqtt_ip;
 
-// --- MQTT Callback: Receives ON/OFF commands ---
+// --- MQTT Callback ---
 void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Message arrived ["); Serial.print(topic); Serial.print("] ");
     
@@ -27,9 +27,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
         return;
     }
 
-    int status = doc["status"]; // Extracts 0 or 1
+    int status = doc["status"]; 
     
-    // Strict check for the correct topic
     if (String(topic) == "-/dev1/relay1") {
         digitalWrite(RELAY1, status);
         Serial.println(status == 1 ? "-> RELAY1 ON" : "-> RELAY1 OFF");
@@ -39,7 +38,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // --- Setup Mode (AP) ---
 void startAP() {
     WiFi.mode(WIFI_AP);
-    // Updated Name as requested
     WiFi.softAP("ESP32_Dev1_Relay1", "12345678"); 
     Serial.println("AP Mode: Connect to 'ESP32_Dev1_Relay1' to configure device.");
 
@@ -69,7 +67,7 @@ void setup() {
     Serial.begin(115200);
     pinMode(RESET_BTN_PIN, INPUT_PULLUP);
     pinMode(RELAY1, OUTPUT); 
-    digitalWrite(RELAY1, LOW); // Ensure relay is OFF on boot
+    digitalWrite(RELAY1, LOW); 
 
     pref.begin("config", true);
     ssid = pref.getString("ssid", "");
@@ -83,7 +81,6 @@ void setup() {
         WiFi.begin(ssid.c_str(), pass.c_str());
         Serial.print("Connecting to WiFi");
         unsigned long startWait = millis();
-        // 15 seconds timeout for WiFi
         while (WiFi.status() != WL_CONNECTED && (millis() - startWait < 15000)) { 
             delay(500); 
             Serial.print("."); 
@@ -101,23 +98,29 @@ void setup() {
 }
 
 void loop() {
-    // Factory Reset: Hold BOOT button for 3 seconds to clear WiFi/MQTT settings
+    // FIX: Variabel 'hold' diletakkan di luar blok IF agar terbaca oleh ELSE
+    static unsigned long hold = 0; 
+
+    // Factory Reset: Hold BOOT button for 3 seconds
     if (digitalRead(RESET_BTN_PIN) == LOW) {
-        static unsigned long hold = 0;
         if (hold == 0) hold = millis();
         if (millis() - hold > 3000) {
-            pref.begin("config", false); pref.clear(); pref.end();
+            pref.begin("config", false); 
+            pref.clear(); 
+            pref.end();
             Serial.println("Memory Cleared. Restarting...");
+            delay(500);
             ESP.restart();
         }
-    } else { hold = 0; }
+    } else { 
+        hold = 0; // Sekarang 'hold' sudah dikenali di sini
+    }
 
     if (WiFi.status() == WL_CONNECTED) {
         if (!mqttClient.connected()) {
             static unsigned long lastRetry = 0;
             if (millis() - lastRetry > 5000) {
                 lastRetry = millis();
-                // Unique Client ID
                 String clientId = "ESP32_Dev1_R1_" + String(random(0xffff), HEX);
                 if (mqttClient.connect(clientId.c_str())) {
                     Serial.println("MQTT Connected!");
