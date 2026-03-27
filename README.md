@@ -1,4 +1,4 @@
-# IoT Smart Relay Platform
+# IoT Smart Relay
 
 Imagine leaving your home or farm and suddenly remembering you forgot to turn off the water pump or the main lights. Driving all the way back just to push a button is frustrating and wastes valuable time. What if you could control and monitor your essential electrical devices from anywhere in the world, directly from your smartphone or laptop? 
 
