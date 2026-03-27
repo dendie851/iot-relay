@@ -6,8 +6,8 @@ That's exactly why the **IoT Smart Relay** was built! It is a complete, real-tim
 
 
 ## 📑 Table of Contents
-- [📖 The Story Behind the Project](#-the-story-behind-the-project)
 - [🎥 Video Demonstration](#-video-demonstration)
+- [📁 Project Folder Structure](#-project-folder-structure)
 - [🏗️ Architecture & Workflow](#️-architecture--workflow)
 - [📸 Step-by-Step Guide & Screenshots](#-step-by-step-guide--screenshots)
   - [1. Docker Compose Configuration](#1-docker-compose-configuration)
@@ -26,6 +26,21 @@ That's exactly why the **IoT Smart Relay** was built! It is a complete, real-tim
 Want to see the system in action? Check out the video demonstrations below:
 - **Local Demo Video:** [video.mp4](video-demo/video.mp4)
 - **YouTube Shorts Demo:** [Watch on YouTube](https://www.youtube.com/watch?v=mQ4HX40wBAk)
+
+## 📁 Project Folder Structure
+
+Here is a quick overview of what each folder in this repository contains:
+- `apps-backend/`: Source code for the Node.js API server.
+- `apps-frontend/`: Source code for the web-based user dashboard.
+- `design/`: Contains the architecture diagram and design assets.
+- `microcontroller/`: The C++ (Arduino IDE) firmware code to be uploaded to the ESP32.
+- `mosquitto/`: Configuration files and logs for the MQTT Broker.
+- `mysql-data/`: Local directory mapped to store the MySQL database files.
+- `nginx/`: Configuration files for the Nginx Web Server.
+- `sql/`: Database scripts (`.sql` files) used to initialize the tables.
+- `ss/`: Screenshots used for this documentation.
+- `video-demo/`: Contains the local `.mp4` video demonstration.
+- `docker-compose.yaml`: The main configuration file to orchestrate the server containers.
 
 ## 🏗️ Architecture & Workflow
 
